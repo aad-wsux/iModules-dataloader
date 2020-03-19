@@ -1,13 +1,15 @@
 # consume-email-api
 laravel app to consume iModules email api v2 data and store them in database.
-The index page (welcome.blade.php) takes start and end times and will fetch all email data within the time range from iModules email API v2. Because it takes a while to process one month's data (e.g. it takes 22 hours to process data from 336 emails in a month time range), we use Laravel queue and jobs.  The form submission triggers the job, when the queue is completed, a notification email will be sent to the requestor. We get the reuestor's email address via the environment varaibles. 
+The index page (welcome.blade.php) takes start and end times and will fetch all email data within the time range from iModules email API v2. Because it takes a while to process one month's data (e.g. it takes 22 hours to process data from 336 emails that were sent in a month time range), we use Laravel queue and jobs.  The form submission triggers the job, when the queue is completed, a notification email will be sent to the requestor. We get the reuestor's email address via the environment varaibles. 
 
 ## Requirements
-PHP > 7.1
-Laravel
-Composer
-GuzzleHttp
-Supervisor
+- PHP > 7.1
+- HTTP server with PHP support (e.g.: Apache, Ngix, Caddy)
+- [Laravel](https://laravel.com/docs/master)
+- [Composer](https://getcomposer.org)
+- [GuzzleHttp](http://docs.guzzlephp.org/en/stable/)
+- [Supervisor](http://supervisord.org/) 
+- A relatinoal database (e.g.: Oracle, MySQL)
 
 ## Getting Started
 Clone the project repository by running the command below if you use SSH
