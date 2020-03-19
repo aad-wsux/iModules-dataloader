@@ -1,5 +1,5 @@
-# consume-email-api
-laravel app to consume iModules email api v2 data and store them in database.
+# iModules email dataloader
+This is a Laravel web application to consume iModules email api v2 data and store them in database.
 The index page (welcome.blade.php) takes start and end times and will fetch all email data within the time range from iModules email API v2. Because it takes a while to process one month's data (e.g. it takes 22 hours to process data from 336 emails that were sent in a month time range), we use Laravel queue and jobs.  The form submission triggers the job, when the queue is completed, a notification email will be sent to the requestor. We get the reuestor's email address via the environment varaibles. 
 
 ## Requirements
