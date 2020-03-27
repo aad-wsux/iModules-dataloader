@@ -21,14 +21,14 @@ Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/).
 
 - Expected behavior:
 
-- Actual behavior:
+- Screenshots if applicable
 
-- Reproduces how often:
+- System information
 
 - Additional Information
 
 ## Submitting changes
-Please send a GitHub Pull Request with a clear list of what you've done (read more about [pull requests](https://help.github.com/en/pull-requests)). Please follow our coding conventions (below) and make sure all of your commits are atomic (one feature per commit).
+Please send a GitHub Pull Request with a clear list of what you've done (read more about [pull requests](https://help.github.com/en/pull-requests)). Please follow our coding conventions (below) and make sure all of your commits are atomic (one feature per commit).  It is recommended that you use our [pull request template](https://github.com/aad-wsux/iModules_dataloader/blob/master/.github/pull_request_template.md).
 
 Always write a clear log message for your commits. One-line messages are fine for small changes, but bigger changes should look like this:
 
