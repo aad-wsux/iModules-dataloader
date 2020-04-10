@@ -4,7 +4,17 @@ While iModules Admin UI provide some statistical graphs and charts, it didn't pr
 For example, although the admin panel displays the bounce rate, we would like to know the email addresses that are bounced and the reasons of the bounces.  We can remove the invalid emails from our mail list.  Another major advantage of the app is to match the recipients with the clicks which will shed insights to our future digital marketing efforts.  With the iModules email data loader app, one can download the entire database of a certain time range and using SQL, Tableau or other data analysis/visualization tool to generate custom report of marketing emails.
 
 
-The index page (welcome.blade.php) takes start and end times and will fetch all email data within the time range from iModules email API v2. Because it takes a while to process one month's data (e.g. it takes 22 hours to process data from 336 emails that were sent in a month time range), we use Laravel queue and jobs.  The form submission triggers the job, when the queue is completed, a notification email will be sent to the requestor. We get the reuestor's email address via the environment varaibles. 
+The index page (welcome.blade.php) takes start and end times and will fetch all email data within the time range from iModules email API v2.  We use Laravel queue and jobs because it takes a while to process one month's data if you have a large alumni mail list like us (e.g. it takes 22 hours to process data from 336 emails that were sent in a month time range).  The form submission triggers the job, when the queue is completed, a notification email will be sent to the requestor. We get the reuestor's email address via the environment varaibles. 
+
+Enter the start and end date to submit a job. The epoch time input field is read only and is auto-filled when the start and end time is entered.
+![The index page](https://raw.githubusercontent.com/aad-wsux/iModules-dataloader/images/index-screenshot.png)
+
+If no other job is currently running, the user sees the success page right after form submission, indicating that the Laravel job is triggered.
+![The success page](https://raw.githubusercontent.com/aad-wsux/iModules-dataloader/images/success-screenshot.png)
+
+Otherwise, an alert message will prompt on the screen indicating the job failed to initiate because there is an existing job.  This is a safety mechanism to ensure that a new job will not be triggered until the previous request has been processed as each new job wipes the data tables clean.
+![The alert message](https://raw.githubusercontent.com/aad-wsux/iModules-dataloader/images/alert-screenshot.png)
+
 
 ## Requirements
 - PHP > 7.1
@@ -151,6 +161,7 @@ public $timeout = 345600;  //96 hours
 ## Supervisor
 ### Install and config
 here is how to install and config supervisord on centos 7 to run Laravel queues permanently:
+
 1. 
 ```
 easy_install supervisor
