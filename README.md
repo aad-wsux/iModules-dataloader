@@ -96,10 +96,10 @@ Once the database is settup and migrations are up, run
 php artisan serve
 
 ```
-and visit http://localhost:8000/ to see the application in action.
+and visit `http://localhost:8000/` to see the application in action.
 
 ## Database config
-We used Oracle database, if you use MySql, don't forget to change the default database type in /config/database.php.
+We used Oracle database, if you use MySql, don't forget to change the default database type in `/config/database.php`.
 ```
 
 'default' => env('DB_CONNECTION', 'oracle')
@@ -108,11 +108,10 @@ We used Oracle database, if you use MySql, don't forget to change the default da
 
 ## Dependencies needed for Oracle connection
 ### Oracle Instant Client and oci8
-How to install OCI8 on Ubuntu 18.04 and PHP 7.2
-From <https://gist.github.com/Yukibashiri/cebaeaccbe531665a5704b1b34a3498e> 
+To install OCI8 on Ubuntu 18.04 and PHP 7.2, follow these instructions by [Mario D. Caparroz](https://github.com/Yukibashiri): https://gist.github.com/Yukibashiri/cebaeaccbe531665a5704b1b34a3498e.
 
 ### Oracle Driver package
-yajra/laravel-oic8 (https://github.com/yajra/laravel-oci8)
+[Laravel-OCI8](https://github.com/yajra/laravel-oci8) is an Oracle Database Driver package for Laravel.
 ```
 
 composer require yajra/laravel-oci8
@@ -134,7 +133,7 @@ Yajra\Oci8\Oci8ServiceProvider::class,
 The web form takes in a request and dispatch a queued job to keep running on the server and send user a notification when the job is finished.
 
 We used database tables (iMoudles_jobs, iModules_failed_jobs) to handle the queue.
-If you wish to use other options such as "beanstalkd", "sqs", "redis", change the queue config in /config/queue.php.
+If you wish to use other options such as "beanstalkd", "sqs", "redis", change the queue config in `/config/queue.php`.
 ```
 
 'default' => env('QUEUE_CONNECTION', 'database'),
@@ -142,14 +141,14 @@ If you wish to use other options such as "beanstalkd", "sqs", "redis", change th
 ```
 
 ### Laravel form validation
-The application can only process one job at a time.  Since the data tables grow big very quickly, at the beginning of each job, the database tables will be emptied.
+The application can only process one job at a time. Since the data tables get large very quickly, at the beginning of each job, the database tables will be emptied.
 We use Laravel form validation to prevent any new job being initiated while a job is currently in the queue.
-The validation code is in /app/Http/Controllers/MessageController.php 
+The validation code is in `/app/Http/Controllers/MessageController.php`.
 
 ### Queue finished or failed notification and logging
 Queue start and end events are logged.
 An email notification will be sent to the requester when a job is finished or failed.
-The code is in app/Providers/AppServiceProvider.php
+The code is in `app/Providers/AppServiceProvider.php`.
 Two email templates are in app/Mail.
 
 ### Timeout
@@ -162,67 +161,9 @@ public $timeout = 345600;  //96 hours
 
 ```
 
-## Supervisor
-### Install and config
-here is how to install and config supervisord on centos 7 to run Laravel queues permanently:
-
-1. 
-```
-easy_install supervisor
-
-```
-2. 
-```
-
-yum install supervisor
-
-```
-3. vim /etc/supervisord.conf edit section program as following:
-
-```
-
-[program:laravel-worker]
-command=php /path/to/app.com/artisan queue:work 
-process_name=%(program_name)s_%(process_num)02d
-numprocs=8 
-priority=999 
-autostart=true
-autorestart=true  
-startsecs=1
-startretries=3
-user=apache
-redirect_stderr=true
-stdout_logfile=/path/to/log/worker.log
-
-```
-4. to autorun at start.
-```
-
-systemctl enable supervisord
-
-```
-5. to restart the service.
-```
-
-systemctl restart supervisord
-
-```
-6. to check worker status.
-```
-
-supervisorctl status
-
-```
-7. to stop all workers.
-```
-
-supervisorctl stop all
-
-```
-
 ## Restart queue worker
 If queue job with database drivers doesn't populate table jobs, you need to restart queue worker on the server.
-Since queue workers are long-lived processes, they will not pick up changes to your code without being restarted. So, the simplest way to deploy an application using queue workers is to restart the workers during your deployment process. You may gracefully restart all of the workers by issuing the queue:restart command:
+Since queue workers are long-lived processes, they will not pick up changes to your code without being restarted. So, the simplest way to deploy an application using queue workers is to restart the workers during your deployment process. You may gracefully restart all of the workers by issuing the following command ([Marcin Nabiałek](https://stackoverflow.com/users/3593996/marcin-nabia%c5%82ek) on [Stack Overflow](https://stackoverflow.com/questions/52930104/laravel-queue-job-doesnt-updates-to-the-latest-code)):
 ```
 
 php artisan queue:restart
